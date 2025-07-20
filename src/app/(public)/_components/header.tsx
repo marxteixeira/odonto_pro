@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from  'react'
 import Link from "next/link";
 import {
   Sheet,
@@ -11,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
 export function Header() {
+    const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
         { href: "#profissionais", label: "Profissionais" }
@@ -20,6 +24,7 @@ export function Header() {
         <>
             {navItems.map((item) => (
                 <Button
+                    onClick={() => setIsOpen(false)}
                     key={item.href}
                     asChild
                     className="bg-transparent hover:bg-transparent text-black shadow-none"
@@ -51,7 +56,7 @@ export function Header() {
                     <NavLinks />
                 </nav>
 
-                <Sheet>
+                <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild className="md:hidden">
                         <Button 
                             className="text-black hover:bg-transparent"
