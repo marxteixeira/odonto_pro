@@ -52,7 +52,7 @@ export function Header() {
                     Odonto<span className="text-emerald-500">PRO</span>
                 </Link>
                 
-                <nav className="hidden md:flex items-center">
+                <nav className="hidden md:flex items-center space-x-4">
                     <NavLinks />
                 </nav>
 
@@ -74,7 +74,7 @@ export function Header() {
                             Veja nossos links
                         </SheetDescription>
 
-                        <nav>
+                        <nav className='flex flex-col space-y-4 mt-6'>
                             <NavLinks />
                         </nav>
                     </SheetContent>
