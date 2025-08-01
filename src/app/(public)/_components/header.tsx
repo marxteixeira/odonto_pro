@@ -12,11 +12,14 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button";
 import { LogIn, Menu } from "lucide-react";
+import { useSession } from 'next-auth/react';
 
 export function Header() {
+    const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false);
 
-    const session = null;
+    console.log(session)
+    console.log(status)
 
     const navItems = [
         { href: "#profissionais", label: "Profissionais" }
@@ -38,7 +41,9 @@ export function Header() {
                 </Button>
             ))}
 
-            {session ? (
+            {status === 'loading' ? (
+                <></>
+            ) : session ? (
                 <Link
                     href="/dashboard"
                     className='flex items-center justify-center gap-2'
