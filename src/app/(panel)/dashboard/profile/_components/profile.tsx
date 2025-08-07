@@ -261,6 +261,12 @@ export function ProfileContent() {
                                     )}
                                 />
 
+                                <Button
+                                    type="submit"
+                                    className='w-sull bg-emerald-500 hover:bg-emerald-400'
+                                >
+                                    Salvar alterações   
+                                </Button>
 
                             </div>
                         </CardContent>
