@@ -61,7 +61,16 @@ export function ProfileContent() {
         setSelectedHours((prev) => prev.includes(hour) ? prev.filter(h => h !== hour) : [...prev, hour].sort())
     }
 
-
+    const timeZones = Intl.supportedValuesOf("timeZone").filter((zone) =>
+        zone.startsWith("America/Sao_Paulo") ||
+        zone.startsWith("America/Fortaleza") ||
+        zone.startsWith("America/Recife") ||
+        zone.startsWith("America/Bahia") ||
+        zone.startsWith("America/Belem") ||
+        zone.startsWith("America/Manaus") ||
+        zone.startsWith("America/Cuiaba") ||
+        zone.startsWith("America/Boa_Vista")
+    );
 
     return (
         <div className='mx-auto'>
@@ -220,6 +229,39 @@ export function ProfileContent() {
                                     </Dialog>
 
                                 </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="timeZone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className='font-semibold'>
+                                                Selecione o fuso horário
+                                            </FormLabel>
+                                            <FormControl>
+
+                                                <Select
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Selecione seu fuso horário" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {timeZones.map((zone) => (
+                                                            <SelectItem key={zone} value={zone}>
+                                                                {zone}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+
+
                             </div>
                         </CardContent>
                     </Card>
