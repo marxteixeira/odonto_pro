@@ -149,7 +149,7 @@ export function ProfileContent() {
                                     )}
                                 />
 
-                                <FormField
+                                <   FormField
                                     control={form.control}
                                     name="status"
                                     render={({ field }) => (
