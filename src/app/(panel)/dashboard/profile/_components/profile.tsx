@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react'
-import { useProfileForm } from './profile_form'
+import { ProfileFormData, useProfileForm } from './profile_form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
     Form,
@@ -72,10 +72,18 @@ export function ProfileContent() {
         zone.startsWith("America/Boa_Vista")
     );
 
+    async function onSubmit(values: ProfileFormData) {
+        const profileData = {
+            ...values,
+            times: selectedHours
+        }
+        console.log("values: ", profileData)
+    }
+
     return (
         <div className='mx-auto'>
             <Form {...form}>
-                <form>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                     <Card>
                         <CardHeader>
                             <CardTitle>Meu Perfil</CardTitle>
@@ -153,7 +161,7 @@ export function ProfileContent() {
                                     control={form.control}
                                     name="status"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel className='font-semibold'>
                                                 Status da clinica
                                             </FormLabel>
@@ -163,7 +171,7 @@ export function ProfileContent() {
                                                     onValueChange={field.onChange}
                                                     defaultValue={field.value ? "active" : "inactive"}
                                                 >
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecione o status da clincia" />
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -234,7 +242,7 @@ export function ProfileContent() {
                                     control={form.control}
                                     name="timeZone"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel className='font-semibold'>
                                                 Selecione o fuso horário
                                             </FormLabel>
@@ -244,7 +252,7 @@ export function ProfileContent() {
                                                     onValueChange={field.onChange}
                                                     defaultValue={field.value}
                                                 >
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="w-full">
                                                         <SelectValue placeholder="Selecione seu fuso horário" />
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -263,7 +271,7 @@ export function ProfileContent() {
 
                                 <Button
                                     type="submit"
-                                    className='w-sull bg-emerald-500 hover:bg-emerald-400'
+                                    className='w-full bg-emerald-500 hover:bg-emerald-400'
                                 >
                                     Salvar alterações   
                                 </Button>
