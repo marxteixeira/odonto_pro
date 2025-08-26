@@ -35,6 +35,8 @@ import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Prisma } from "@/prisma-client";
 import { updateProfile } from '../_actions/update'
+import { toast } from 'sonner'
+import { formatPhone, extractPhoneNumber } from '@/utils/formatPhone'
 
 type UserWithSubscription = Prisma.UserGetPayload<{
   include: {
@@ -94,6 +96,8 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
     async function onSubmit(values: ProfileFormData) {
         
+        const extractValue = extractPhoneNumber(values.phone || "")
+
         const response = await updateProfile({
             name: values.name,
             address: values.address,
@@ -103,7 +107,12 @@ export function ProfileContent({ user }: ProfileContentProps) {
             times: selectedHours || []
         })
 
-        console.log('resposta', response)
+        if(response.error) {
+            toast.error(response.error)
+            return;
+        }
+
+        toast.success(response.data)
     }
 
     return (
@@ -175,7 +184,11 @@ export function ProfileContent({ user }: ProfileContentProps) {
                                             <FormControl>
                                                 <Input
                                                     {...field}
-                                                    placeholder='Digite o telefone...'
+                                                    placeholder='(00) 90000-0000'
+                                                    onChange={ (e) => {
+                                                        const formattedValue = formatPhone(e.target.value)
+                                                        field.onChange(formattedValue)
+                                                    }}
                                                 />
                                             </FormControl>
                                             <FormMessage />
