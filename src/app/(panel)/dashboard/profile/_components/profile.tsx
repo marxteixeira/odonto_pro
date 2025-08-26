@@ -33,9 +33,22 @@ import {
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Prisma } from "@/prisma-client";
 
-export function ProfileContent() {
+type UserWithSubscription = Prisma.UserGetPayload<{
+  include: {
+    subscription: true;
+  };
+}>;
 
+interface ProfileContentProps{
+    user: UserWithSubscription;
+}
+
+export function ProfileContent({ user }: ProfileContentProps) {
+
+    console.log(user);
+    
     const [selectedHours, setSelectedHours] = useState<string[]>([])
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
