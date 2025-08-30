@@ -1,7 +1,7 @@
 "use client"
 
 import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { useDialogServiceForm } from "./dialog-service-form"
+import { useDialogServiceForm, DialogServiceFormData } from "./dialog-service-form"
 import {
     Form,
     FormControl,
@@ -17,6 +17,26 @@ export function DialogService() {
 
     const form = useDialogServiceForm()
 
+    async function onSubmit(values: DialogServiceFormData){
+        console.log(values)
+    }
+
+    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>){
+        let { value } = event.target;
+        value = value.replace(/\D/g, '');
+
+        // - Valor em centavos = Valor em reais * 100
+        // - Valor em reais = valor em centavos / 100
+        if(value){
+            value = (parseInt(value, 10) / 100).toFixed(2); //conversão de centavos par reais
+            value = value.replace('.', ',');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        }
+
+        event.target.value = value;
+        form.setValue("price", value)
+    }
+
     return (
         <>
             <DialogHeader>
@@ -28,7 +48,8 @@ export function DialogService() {
 
             <Form {...form}>
                 <form
-                    className="space-y-2">
+                    className="space-y-2"
+                    onSubmit={form.handleSubmit(onSubmit)}>
 
                     <div className="flex flex-col">
                         <FormField
@@ -62,6 +83,7 @@ export function DialogService() {
                                         <Input
                                             {...field}
                                             placeholder="Ex: 120,00"
+                                            onChange={changeCurrency}
                                         />
                                     </FormControl>
                                     <FormMessage />
