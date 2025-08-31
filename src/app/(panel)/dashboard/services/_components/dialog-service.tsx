@@ -13,14 +13,44 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { convertRealToCents } from "@/utils/currency"
+import { createNewService } from '../_actions/create-service'
+import { toast } from "sonner"
+import { useState } from 'react'
 
-export function DialogService() {
+interface DialogServiceProps {
+    closeModal: () => void;
+}
+
+export function DialogService({ closeModal }: DialogServiceProps) {
 
     const form = useDialogServiceForm()
 
     async function onSubmit(values: DialogServiceFormData){
         const priceInCents = convertRealToCents(values.price)
-        console.log(priceInCents)
+        const hours = parseInt(values.hours) || 0;
+        const minutes = parseInt(values.minutes) || 0;
+
+        //converter as horas e minutos para duração total em minutos;
+        const duration = (hours * 60) + minutes;
+
+        const response = await createNewService({
+            name: values.name,
+            price: priceInCents,
+            duration: duration
+        })
+
+        if(response.error){
+            toast.error(response.error)
+            return;
+        }
+
+        toast.success("Serviço cadastrado com sucesso!")
+        handleCloseModeal();
+    }
+
+    function handleCloseModeal(){
+        form.reset();
+        closeModal();
     }
 
     function changeCurrency(event: React.ChangeEvent<HTMLInputElement>){
