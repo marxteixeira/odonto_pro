@@ -24,8 +24,10 @@ interface DialogServiceProps {
 export function DialogService({ closeModal }: DialogServiceProps) {
 
     const form = useDialogServiceForm()
+    const  [loading, setLoading] = useState(false);
 
     async function onSubmit(values: DialogServiceFormData){
+        setLoading(true);
         const priceInCents = convertRealToCents(values.price)
         const hours = parseInt(values.hours) || 0;
         const minutes = parseInt(values.minutes) || 0;
@@ -38,6 +40,8 @@ export function DialogService({ closeModal }: DialogServiceProps) {
             price: priceInCents,
             duration: duration
         })
+
+        setLoading(false);
 
         if(response.error){
             toast.error(response.error)
@@ -171,8 +175,9 @@ export function DialogService({ closeModal }: DialogServiceProps) {
                         <Button
                             type="submit"
                             className="w-full font-semibold text-white"
+                            disabled={loading}
                         >
-                            Adicionar serviço
+                            {loading ? "Cadastrando..." : "Adicionar serviço"}
                         </Button>
 
                     </div>
