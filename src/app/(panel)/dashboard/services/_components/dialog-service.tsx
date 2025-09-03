@@ -19,24 +19,24 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface DialogServiceProps {
-  closeModal: () => void;
-  serviceId?: string;
-  initialValues?: {
-    name: string;
-    price: string;
-    hours: string;
-    minutes: string;
-  }
+    closeModal: () => void;
+    serviceId?: string;
+    initialValues?: {
+        name: string;
+        price: string;
+        hours: string;
+        minutes: string;
+    }
 }
 
 
 export function DialogService({ closeModal, initialValues, serviceId }: DialogServiceProps) {
 
     const form = useDialogServiceForm({ initialValues: initialValues })
-    const  [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    async function onSubmit(values: DialogServiceFormData){
+    async function onSubmit(values: DialogServiceFormData) {
         setLoading(true);
         const priceInCents = convertRealToCents(values.price)
         const hours = parseInt(values.hours) || 0;
@@ -44,6 +44,18 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
 
         //converter as horas e minutos para duração total em minutos;
         const duration = (hours * 60) + minutes;
+
+        if (serviceId) {
+            await editServiceById({
+                serviceId: serviceId,
+                name: values.name,
+                priceInCents: priceInCents,
+                duration: duration
+            })
+
+            return;
+        }
+
 
         const response = await createNewService({
             name: values.name,
@@ -53,7 +65,7 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
 
         setLoading(false);
 
-        if(response.error){
+        if (response.error) {
             toast.error(response.error)
             return;
         }
@@ -63,18 +75,34 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
         router.refresh();
     }
 
-    function handleCloseModeal(){
+    async function editServiceById({
+        serviceId,
+        name,
+        priceInCents,
+        duration }: {
+            serviceId: string,
+            name: string,
+            priceInCents: number,
+            duration: number
+        }) {
+
+        console.log("voce quer atualizar...")
+
+    }
+
+
+    function handleCloseModeal() {
         form.reset();
         closeModal();
     }
 
-    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>){
+    function changeCurrency(event: React.ChangeEvent<HTMLInputElement>) {
         let { value } = event.target;
         value = value.replace(/\D/g, '');
 
         // - Valor em centavos = Valor em reais * 100
         // - Valor em reais = valor em centavos / 100
-        if(value){
+        if (value) {
             value = (parseInt(value, 10) / 100).toFixed(2); //conversão de centavos par reais
             value = value.replace('.', ',');
             value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
@@ -188,7 +216,7 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
                             className="w-full font-semibold text-white"
                             disabled={loading}
                         >
-                            {loading ? "Cadastrando..." : "Adicionar serviço"}
+                            {loading ? "Cadastrando..." : `${serviceId ? "Atualizar serviço" : "Cadastrar serviço"}`}
                         </Button>
 
                     </div>
