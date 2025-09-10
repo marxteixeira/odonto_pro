@@ -17,6 +17,7 @@ import { createNewService } from '../_actions/create-service'
 import { toast } from "sonner"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { updateService } from '../_actions/update-service'
 
 interface DialogServiceProps {
     closeModal: () => void;
@@ -71,7 +72,7 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
         }
 
         toast.success("Serviço cadastrado com sucesso!")
-        handleCloseModeal();
+        handleCloseModal();
         router.refresh();
     }
 
@@ -86,12 +87,29 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
             duration: number
         }) {
 
-        console.log("voce quer atualizar...")
+        const response = await updateService({
+            serviceId: serviceId,
+            name: name,
+            price: priceInCents,
+            duration: duration
+        })
+
+        setLoading(false);
+
+
+        if (response.error) {
+            toast(response.error)
+            return;
+        }
+
+        toast(response.data)
+        handleCloseModal();
+
 
     }
 
 
-    function handleCloseModeal() {
+    function handleCloseModal() {
         form.reset();
         closeModal();
     }
@@ -216,7 +234,7 @@ export function DialogService({ closeModal, initialValues, serviceId }: DialogSe
                             className="w-full font-semibold text-white"
                             disabled={loading}
                         >
-                            {loading ? "Cadastrando..." : `${serviceId ? "Atualizar serviço" : "Cadastrar serviço"}`}
+                            {loading ? "Carregando..." : `${serviceId ? "Atualizar serviço" : "Cadastrar serviço"}`}
                         </Button>
 
                     </div>
