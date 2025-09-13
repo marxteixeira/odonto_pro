@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { formatPhone } from '@/utils/formatPhone'
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -70,6 +71,42 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                     <Input
                                         id="name"
                                         placeholder="Digite seu nome completo..."
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="my-2">
+                                <FormLabel className="font-semibold">E-mail:</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        id="email"
+                                        placeholder="Digite seu email..."
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                            <FormItem className="my-2">
+                                <FormLabel className="font-semibold">Telefone:</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        id="name"
+                                        placeholder="(XX) XXXXX-XXXX"
                                         {...field}
                                     />
                                 </FormControl>
