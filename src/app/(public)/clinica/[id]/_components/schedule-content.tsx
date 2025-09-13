@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { formatPhone } from '@/utils/formatPhone'
+import { DateTimePicker } from "./date-picker"
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -57,66 +58,97 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                 </div>
             </section>
 
-            {/* Formulário de agendamento */}
-            <Form {...form}>
-                <form className="mx-2 space-y-6 bg-white p-6 border rounded-md shadow-sm">
+            <section className="max-w-2xl mx-auto w-full mt-6">
+                {/* Formulário de agendamento */}
+                <Form {...form}>
+                    <form className="mx-2 space-y-6 bg-white p-6 border rounded-md shadow-sm">
 
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem className="my-2">
-                                <FormLabel className="font-semibold">Nome completo:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        id="name"
-                                        placeholder="Digite seu nome completo..."
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem className="my-2">
+                                    <FormLabel className="font-semibold">Nome completo:</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="name"
+                                            placeholder="Digite seu nome completo..."
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem className="my-2">
-                                <FormLabel className="font-semibold">E-mail:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        id="email"
-                                        placeholder="Digite seu email..."
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem className="my-2">
+                                    <FormLabel className="font-semibold">E-mail:</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="email"
+                                            placeholder="Digite seu email..."
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                            <FormItem className="my-2">
-                                <FormLabel className="font-semibold">Telefone:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        id="name"
-                                        placeholder="(XX) XXXXX-XXXX"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="phone"
+                            render={({ field }) => (
+                                <FormItem className="my-2">
+                                    <FormLabel className="font-semibold">Telefone:</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            id="name"
+                                            placeholder="(XX) XXXXX-XXXX"
+                                            onChange={(e) => {
+                                                const formattedValue = formatPhone(e.target.value)
+                                                field.onChange(formattedValue)
 
-                </form>
-            </Form>
+                                            }}
+
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="date"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center gap-2 space-y-1">
+                                    <FormLabel className="font-semibold">Data do agendamento:</FormLabel>
+                                    <FormControl>
+                                        <DateTimePicker
+                                            initialDate={new Date()}
+                                            className="w-full rounded border p-2"
+                                            onChange={(date) => {
+                                                if (date) {
+                                                    field.onChange(date)
+                                                    
+                                                }
+                                            }}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                    </form>
+                </Form>
+            </section>
 
         </div>
     )
