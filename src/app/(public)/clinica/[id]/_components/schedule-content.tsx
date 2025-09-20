@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react'
 import Image from "next/image"
 import imgTest from '../../../../../../public/foto1.png'
 import { MapPin } from "lucide-react"
@@ -20,16 +21,29 @@ type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     }
 }>
 
-
 interface ScheduleContentProps {
     clinic: UserWithServiceAndSubscription
 }
 
+export interface TimeSlot {
+    time: string;
+    available: boolean;
+}
 
 export function ScheduleContent({ clinic }: ScheduleContentProps) {
 
     const form = useAppointmentForm();
     const { watch } = form;
+
+    const [selectedTime, setSelectedTime] = useState("");
+    const [availableTimeSlots, setAvailableTimeSlots] = useState<TimeSlot[]>([]);
+    const [loadingSlots, setLoadingSlots] = useState(false);
+
+    // Quais os horários bloqueados 01/02/2025 > ["15:00", "18:00"]
+    const [blockedTimes, setBlockedTimes] = useState<string[]>([])
+
+    // Função que busca os horários bloqueados (via Fetch HTTP)
+    
 
     async function handleRegisterAppointmnent(formData: AppointmentFormData) {
         console.log(formData)
