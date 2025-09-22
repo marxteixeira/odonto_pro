@@ -52,12 +52,14 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             const dateString = date.toISOString().split("T")[0]
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/schedule/get-appointments?userId=${clinic.id}&date=${dateString}`)
 
-            return []
-            
+            const json = await response.json();
+            setLoadingSlots(false);
+            return json;
+
         } catch (err) {
             console.log(err)
             setLoadingSlots(false);
-            return [];
+            return []; //vai retornar o array com horários que já tem bloqueados desse dia e dessa clínica.
         }
     }, [clinic.id])
 
@@ -65,9 +67,17 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
 
         if (selectedDate) {
             fetchBlockedTimes(selectedDate).then((blocked) => {
-                console.log("Horários bloqueados: ", blocked)
+                setBlockedTimes(blocked)
 
-                
+                const times = clinic.times || [];
+
+                const finalSlots = times.map((time) => ({
+                    time: time,
+                    available: !blocked.includes(time)
+                }))
+
+                setAvailableTimeSlots(finalSlots)
+
             })
         }
 
