@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Image from "next/image"
 import imgTest from '../../../../../../public/foto1.png'
 import { MapPin } from "lucide-react"
@@ -35,6 +35,9 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
     const form = useAppointmentForm();
     const { watch } = form;
 
+    const selectedDate = watch("date")
+    const selectedServiceId = watch("serviceId")
+
     const [selectedTime, setSelectedTime] = useState("");
     const [availableTimeSlots, setAvailableTimeSlots] = useState<TimeSlot[]>([]);
     const [loadingSlots, setLoadingSlots] = useState(false);
@@ -43,7 +46,33 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
     const [blockedTimes, setBlockedTimes] = useState<string[]>([])
 
     // Função que busca os horários bloqueados (via Fetch HTTP)
-    
+    const fetchBlockedTimes = useCallback(async (date: Date): Promise<string[]> => {
+        setLoadingSlots(true);
+        try {
+            const dateString = date.toISOString().split("T")[0]
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/schedule/get-appointments?userId=${clinic.id}&date=${dateString}`)
+
+            return []
+            
+        } catch (err) {
+            console.log(err)
+            setLoadingSlots(false);
+            return [];
+        }
+    }, [clinic.id])
+
+    useEffect(() => {
+
+        if (selectedDate) {
+            fetchBlockedTimes(selectedDate).then((blocked) => {
+                console.log("Horários bloqueados: ", blocked)
+
+                
+            })
+        }
+
+    }, [selectedDate, clinic.times, fetchBlockedTimes, selectedTime])
+
 
     async function handleRegisterAppointmnent(formData: AppointmentFormData) {
         console.log(formData)
