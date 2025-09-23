@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { formatPhone } from '@/utils/formatPhone'
 import { DateTimePicker } from "./date-picker"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ScheduleTimeList } from './schedule-time-list'
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -233,6 +234,32 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                 </FormItem>
                             )}
                         />
+
+                        {selectedServiceId && (
+                            <div className='space-y-2'>
+                                <Label className="font-semibold">Horários disponíveis:</Label>
+                                <div className='bg-gray-100 p-4 rounded-lg'>
+                                    {loadingSlots ? (
+                                        <p>Carregando horários...</p>
+                                    ) : availableTimeSlots.length === 0 ? (
+                                        <p>Nenhum horário disponível</p>
+                                    ) : (
+                                        <ScheduleTimeList
+                                            onSelectTime={(time) => setSelectedTime(time)}
+                                            clinicTimes={clinic.times}
+                                            blockedTimes={blockedTimes}
+                                            availableTimeSlots={availableTimeSlots}
+                                            selectedTime={selectedTime}
+                                            selectedDate={selectedDate}
+                                            requiredSlots={
+                                                clinic.services.find(service => service.id === selectedServiceId) ? Math.ceil(clinic.services.find(service => 
+                                                    service.id === selectedServiceId)!.duration / 30) : 1
+                                            }
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                         {clinic.status ? (
                             <Button
