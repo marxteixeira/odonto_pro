@@ -14,6 +14,8 @@ import { formatPhone } from '@/utils/formatPhone'
 import { DateTimePicker } from "./date-picker"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ScheduleTimeList } from './schedule-time-list'
+import { createNewAppointment } from '../_actions/create-appointments'
+import { toast } from 'sonner'
 
 type UserWithServiceAndSubscription = Prisma.UserGetPayload<{
     include: {
@@ -86,8 +88,28 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
 
 
     async function handleRegisterAppointmnent(formData: AppointmentFormData) {
-        console.log(formData)
+        if (!selectedTime) {
+            return;
+        }
 
+        const response = await createNewAppointment({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            time: selectedTime,
+            date: formData.date,
+            serviceId: formData.serviceId,
+            clinicId: clinic.id
+        })
+
+        if (response.error) {
+            toast.error(response.error)
+            return;
+        }
+
+        toast.success("Consulta agendada com sucesso!")
+        form.reset();
+        setSelectedTime("")
     }
 
 
@@ -252,7 +274,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
                                             selectedTime={selectedTime}
                                             selectedDate={selectedDate}
                                             requiredSlots={
-                                                clinic.services.find(service => service.id === selectedServiceId) ? Math.ceil(clinic.services.find(service => 
+                                                clinic.services.find(service => service.id === selectedServiceId) ? Math.ceil(clinic.services.find(service =>
                                                     service.id === selectedServiceId)!.duration / 30) : 1
                                             }
                                         />
