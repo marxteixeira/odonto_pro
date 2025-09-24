@@ -15,17 +15,17 @@ datasource db {
 }
 
 model Appointment {
-  id String  @id @default(uuid())
-  name String //node do paciente
-  email String
-  phone  String
+  id            String  @id @default(uuid())
+  name          String //node do paciente
+  email         String
+  phone         String
   appointmentDate DateTime //data do agendamento
-  time String //horário escolhido
+  time          String //horário escolhido
 
   serviceId String
   service Service @relation(fields: [serviceId], references: [id])
 
-  userId String @unique
+  userId String //id da clínica (user)
   user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
