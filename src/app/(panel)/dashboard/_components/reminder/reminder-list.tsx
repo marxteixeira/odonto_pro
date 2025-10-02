@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card"
 import { Reminder } from "@prisma/client"
@@ -26,6 +27,7 @@ interface ReminderListProps {
 export function ReminderList({ reminder }: ReminderListProps) {
 
     const router = useRouter();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     async function handleDeleteReminder(id: string) {
         const response = await deleteReminder({ reminderId: id })
@@ -48,7 +50,7 @@ export function ReminderList({ reminder }: ReminderListProps) {
                     </CardTitle>
 
 
-                    <Dialog >
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                         <DialogTrigger asChild>
                             <Button variant="ghost" className="w-9 p-0">
                                 <Plus className="w-5 h-5" />
@@ -61,7 +63,9 @@ export function ReminderList({ reminder }: ReminderListProps) {
                                 <DialogDescription>Criar um novo lembrete para sua lista.</DialogDescription>
                             </DialogHeader>
 
-                            <ReminderContent/>
+                            <ReminderContent
+                            closeDialog={() => setIsDialogOpen(false)}
+                            />
                         </DialogContent>
 
                     </Dialog>

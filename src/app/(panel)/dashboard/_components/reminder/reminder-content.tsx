@@ -11,15 +11,32 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Textarea } from '@/components/ui/textarea'
+import { createReminder } from '../../_actions/create-reminder'
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+
+interface ReminderContentProps {
+  closeDialog: () => void;
+}
 
 
-export function ReminderContent() {
+export function ReminderContent({ closeDialog }: ReminderContentProps) {
 
   const form = useReminderForm()
+  const router = useRouter();
 
   async function onSubmit(formData: ReminderFormdata) {
 
-    console.log(formData.description)
+    const response = await createReminder({ description: formData.description })
+
+    if (response.error) {
+      toast.error(response.error)
+      return;
+    }
+
+    toast.success(response.data)
+    router.refresh();
+    closeDialog();
   }
 
   return (
