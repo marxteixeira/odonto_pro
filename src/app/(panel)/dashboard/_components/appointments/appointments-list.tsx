@@ -31,8 +31,9 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
     const searchParams = useSearchParams();
     const date = searchParams.get("date")
+    const queryClient = useQueryClient();
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ["get-appointments", date],
         queryFn: async () => {
 
@@ -102,6 +103,8 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
             return;
         }
 
+        queryClient.invalidateQueries({ queryKey: ["get-appointments"] })
+        await refetch()
         toast.success(response.data);
     }
 
