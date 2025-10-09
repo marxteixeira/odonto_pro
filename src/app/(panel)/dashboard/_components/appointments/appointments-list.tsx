@@ -12,6 +12,10 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { Prisma } from '@prisma/client'
+import { Button } from '@/components/ui/button'
+import { Eye, X } from 'lucide-react'
+import { cancelAppointment } from '../../_actions/cancel-appointment'
+import { toast } from 'sonner'
 
 export type AppointmentWithService = Prisma.AppointmentGetPayload<{
     include: {
@@ -55,6 +59,8 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
             return json
 
         },
+        staleTime: 20000,
+        refetchInterval: 10000
     })
 
     // Monta occupantMap slot > appointment
@@ -88,6 +94,16 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
         }
     }
 
+    async function handleCancelAppointment(appointmentId: string) {
+        const response = await cancelAppointment({ appointmentId: appointmentId })
+
+        if (response.error) {
+            toast.error(response.error);
+            return;
+        }
+
+        toast.success(response.data);
+    }
 
     return (
         <Card>
@@ -119,7 +135,25 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                                             <div className='text-sm text-gray-500'>
                                                 {occupant.phone}
                                             </div>
+                                        </div>
 
+                                        <div className='ml-auto'>
+                                            <div className='flex'>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                >
+                                                    <Eye className='w-4 h-4' />
+                                                </Button>
+
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => handleCancelAppointment(occupant.id)}
+                                                >
+                                                    <X className='w-4 h-4' />
+                                                </Button>
+                                            </div>
                                         </div>
                                     </div>
                                 )
