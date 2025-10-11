@@ -22,6 +22,7 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog'
 import { DialogAppointment } from './dialog-appointments'
+import { ButtonPickerAppointment } from './button-date'
 
 
 export type AppointmentWithService = Prisma.AppointmentGetPayload<{
@@ -125,7 +126,8 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                     <CardTitle className='text-xl md:text-2xl font-bold'>
                         Agendamentos
                     </CardTitle>
-                    <button>SELECIONAR DATA</button>
+                    
+                    <ButtonPickerAppointment/>
                 </CardHeader>
 
                 <CardContent>
