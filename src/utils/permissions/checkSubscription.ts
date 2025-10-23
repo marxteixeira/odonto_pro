@@ -15,9 +15,6 @@ export async function checkSubscription(userId: string) {
     }
   })
 
-  console.log("USER: ", user)
-
-
   if (!user) {
     throw new Error("Usuário nao encontrado")
   }
@@ -31,8 +28,6 @@ export async function checkSubscription(userId: string) {
   }
 
   const trialEndDate = addDays(user.createdAt, TRIAL_DAYS)
-
-  console.log("TRIALENDDATE: ", trialEndDate)
 
   if (isAfter(new Date(), trialEndDate)) {
     return {
