@@ -48,7 +48,7 @@ export async function createPortalCustomer() {
       sessionId: portalSession.url
     }
   } catch (err) {
-    console.log("ERRO AO CRIAR PORTAL: ", err)
+    //console.log("ERRO AO CRIAR PORTAL: ", err)
 
     return {
       sessionId: "",

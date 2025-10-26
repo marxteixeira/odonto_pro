@@ -48,7 +48,7 @@ export async function createNewService(formData: FromSchema) {
     }
 
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return {
       error: "Falha ao cadastra serviço",
     }

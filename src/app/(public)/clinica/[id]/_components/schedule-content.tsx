@@ -60,7 +60,7 @@ export function ScheduleContent({ clinic }: ScheduleContentProps) {
             return json;
 
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             setLoadingSlots(false);
             return []; //vai retornar o array com horários que já tem bloqueados desse dia e dessa clínica.
         }

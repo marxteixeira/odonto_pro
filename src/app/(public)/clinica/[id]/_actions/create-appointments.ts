@@ -53,7 +53,7 @@ export async function createNewAppointment(formData: FormSchema) {
 
 
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return {
       error: "Erro ao cadastrar agendamento"
     }

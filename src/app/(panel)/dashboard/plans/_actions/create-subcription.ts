@@ -36,14 +36,12 @@ export async function createSubscription({ type }: SubscriptionProps) {
     }
 
     let customerId = findUser.stripe_customer_id;
-    console.log('customerId: ', customerId);
 
     if (!customerId) {
         // Caso o user não tenha um stripe_customer_id então criamos ele como cliente
         const stripeCustomer = await stripe.customers.create({
             email: findUser.email
         })
-        console.log('id do stripe: ', stripeCustomer)
         await prisma.user.update({
             where: {
                 id: userId,
@@ -86,8 +84,6 @@ export async function createSubscription({ type }: SubscriptionProps) {
         }
 
     } catch (err) {
-        console.log("ERRO AO CRIAR CHECKOUT")
-        console.log(err)
         return {
             sessionId: "",
             error: "Falha ao ativar plano."

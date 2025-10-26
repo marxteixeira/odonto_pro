@@ -57,7 +57,7 @@ export async function updateProfile(formData: FormSchema) {
     }
 
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return {
       error: "Falha ao atualizar clincia",
     }

@@ -12,14 +12,14 @@ import { LabelSubscription } from '@/components/ui/label-subscription'
 export default async function Dashboard() {
   const session = await getSession()
 
-  console.log(session)
+  //console.log(session)
 
   if (!session) {
     redirect("/")
   }
 
   const subscription = await checkSubscription(session?.user?.id!)
-  console.log("SUBSCRIPTION: ", subscription);
+  //console.log("SUBSCRIPTION: ", subscription);
 
 
   return (

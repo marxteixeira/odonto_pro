@@ -20,8 +20,6 @@ export async function ServicesContent({ userId }: ServicesContentProps) {
     const services = await getAllServices({ userId: userId })
     const permissions = await canPermission({ type: "service" })
 
-    console.log("PERMISSIONS: ", permissions)
-
     return (
         <>
             {!permissions.hasPermission && (

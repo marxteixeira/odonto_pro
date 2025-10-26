@@ -12,7 +12,7 @@ export const POST = async (request: Request) => {
         return NextResponse.error();
     }
 
-    console.log("WEBHOOK INICIANDO...");
+    //console.log("WEBHOOK INICIANDO...");
 
     const text = await request.text();
 
@@ -67,7 +67,7 @@ export const POST = async (request: Request) => {
             break;
 
         default:
-            console.log("Evento não tratado: ", event.type)
+            //console.log("Evento não tratado: ", event.type)
     }
 
     return NextResponse.json({ received: true })

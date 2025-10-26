@@ -65,7 +65,7 @@ export async function manageSubscription(
                 data: subscriptionData
             })
         } catch (err) {
-            console.log("ERRO AO SALVAR NO BANCO A ASSINATURA")
+            //console.log("ERRO AO SALVAR NO BANCO A ASSINATURA")
             console.log(err);
         }
 
@@ -91,7 +91,7 @@ export async function manageSubscription(
             })
 
         } catch (err) {
-            console.log("FALHA AO ATUALIZAR ASSINATURA NO BANCO")
+            //console.log("FALHA AO ATUALIZAR ASSINATURA NO BANCO")
             console.log(err)
         }
 

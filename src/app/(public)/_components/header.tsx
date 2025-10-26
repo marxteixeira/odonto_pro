@@ -19,8 +19,8 @@ export function Header() {
     const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log(session)
-    console.log(status)
+    //console.log(session)
+    //console.log(status)
 
     const navItems = [
         { href: "#profissionais", label: "Profissionais" }

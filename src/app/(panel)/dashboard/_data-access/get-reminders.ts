@@ -21,7 +21,7 @@ export async function getReminders({ userId }: { userId: string }) {
 
 
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return []
   }
 

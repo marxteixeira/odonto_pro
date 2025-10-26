@@ -52,8 +52,6 @@ interface ProfileContentProps{
 }
 
 export function ProfileContent({ user }: ProfileContentProps) {
-
-    console.log(user);
     
     const router = useRouter();
     const [selectedHours, setSelectedHours] = useState<string[]>(user.times ?? [])

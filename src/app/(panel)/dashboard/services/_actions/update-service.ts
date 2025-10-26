@@ -53,7 +53,6 @@ export async function updateService(formData: FromSchema) {
     }
 
   } catch (err) {
-    console.log(err);
     return {
       error: "Falha ao atualizar serviço",
     }

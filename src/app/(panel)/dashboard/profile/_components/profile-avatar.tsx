@@ -71,7 +71,7 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
 
 
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             return null;
         }
 
