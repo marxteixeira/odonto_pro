@@ -5,6 +5,8 @@ import { ChangeEvent, useState } from 'react';
 import semFoto from '../../../../../../public/foto1.png'
 import { Loader, Upload } from 'lucide-react';
 import { toast } from 'sonner';
+import { updateProfileAvatar } from '../_actions/update-avatar';
+import { useSession } from 'next-auth/react';
 
 
 interface AvatarProfileProps {
@@ -15,6 +17,9 @@ interface AvatarProfileProps {
 export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
     const [previewImage, setPreviewImage] = useState(avatarUrl)
     const [loading, setLoading] = useState(false);
+
+    const { update } = useSession();
+
 
     async function handleChange(e: ChangeEvent<HTMLInputElement>) {
         // (X) Criar o componente
@@ -37,9 +42,17 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProps) {
 
             const urlImage = await uploadImage(newFile)
 
-            if (urlImage) {
-                setPreviewImage(urlImage);
+            if (!urlImage || urlImage === "") {
+                toast.error("Falha ao alterar imagem");
+                return;
             }
+
+            setPreviewImage(urlImage);
+
+            await updateProfileAvatar({ avatarUrl: urlImage })
+            await update({
+                image: urlImage
+            })
 
             setLoading(false);
         }
