@@ -3,10 +3,17 @@ import Image from "next/image"
 import fotoImg from '../../../../public/foto1.png'
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { User } from "@prisma/client";
+import { Prisma } from '@/prisma-client';
+import { PremiumCardBadge } from "./premium-badge";
+
+type UserWithSubscription = Prisma.UserGetPayload<{
+    include:{
+        subscription: true,
+    }
+}>
 
 interface ProfessionalsProps {
-  professionals: User[]
+  professionals: UserWithSubscription[]
 }
 
 export function Professionals({ professionals }: ProfessionalsProps) {
@@ -31,6 +38,9 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                                         fill
                                         className="object-cover"
                                     />
+
+                                    {clinic?.subscription?.status === "active" && clinic?.subscription?.plan === "PROFESSIONAL" && <PremiumCardBadge/>}
+
                                 </div>
                             </div>
 
