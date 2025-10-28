@@ -34,18 +34,17 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                                 </div>
                             </div>
 
-                            <div className="p-4 space-y-4">
+                            <div className="p-4 space-y-4 min-h-[160px] flex flex-col justify-between">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <h3 className="font-semibold">
                                             {clinic.name}
                                         </h3>
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-gray-500 line-clam-2">
                                             {clinic.address ?? "Endereço não informado."}
                                         </p>
                                     </div>
 
-                                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
                                 </div>
 
                                 <Link
