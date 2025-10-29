@@ -4,7 +4,8 @@ import { useState, useCallback, useEffect } from 'react'
 import Image from "next/image"
 import imgTest from '../../../../../../public/foto1.png'
 import { MapPin } from "lucide-react"
-import { Prisma } from "@prisma/client"
+//import { Prisma } from "@prisma/client"
+import { Prisma } from '@/prisma-client';
 import { useAppointmentForm, AppointmentFormData } from './schedule-form'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
