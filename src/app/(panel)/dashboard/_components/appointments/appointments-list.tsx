@@ -27,7 +27,8 @@ import { ButtonPickerAppointment } from './button-date'
 
 export type AppointmentWithService = Prisma.AppointmentGetPayload<{
     include: {
-        service: true,
+        //service: true,
+        service: true
     }
 }>
 
