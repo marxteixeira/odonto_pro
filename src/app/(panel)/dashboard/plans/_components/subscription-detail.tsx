@@ -1,7 +1,7 @@
 "use client"
 
-// import { Subscription } from "@prisma/client";
-import { Subscription } from '@/prisma-client';
+import { Subscription } from "@prisma/client";
+//import { Subscription } from '@/prisma-client';
 import { toast } from 'sonner'
 import {
     Card,

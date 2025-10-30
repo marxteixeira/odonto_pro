@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card"
-//import { Reminder } from "@prisma/client"
-import { Reminder } from '@/prisma-client';
+import { Reminder } from "@prisma/client"
+//import { Reminder } from '@/prisma-client';
 import { Plus, Trash } from "lucide-react"
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { deleteReminder } from "../../_actions/delete-reminder"
