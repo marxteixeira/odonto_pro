@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/card'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { Prisma } from '@prisma/client'
+//import { Prisma } from '@prisma/client'
+import { Prisma } from '@/prisma-client';
 import { Button } from '@/components/ui/button'
 import { Eye, X } from 'lucide-react'
 import { cancelAppointment } from '../../_actions/cancel-appointment'
