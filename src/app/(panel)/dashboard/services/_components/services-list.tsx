@@ -22,7 +22,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Pencil, Plus, X } from 'lucide-react'
 import { DialogService } from './dialog-service'
-import { Service } from "@/prisma-client"
+import { Service } from "@prisma/client"
+//import { Service } from "@/prisma-client"
 import { formatCurrency } from "@/utils/formatCurrency"
 import { deleteService } from "../_actions/delete-service"
 import { toast } from "sonner"

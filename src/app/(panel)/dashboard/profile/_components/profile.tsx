@@ -33,7 +33,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Prisma } from "@/prisma-client";
+import { Prisma } from "@prisma/client"
+//import { Prisma } from "@/prisma-client";
 import { updateProfile } from '../_actions/update'
 import { toast } from 'sonner'
 import { formatPhone, extractPhoneNumber } from '@/utils/formatPhone'

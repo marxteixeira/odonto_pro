@@ -5,7 +5,8 @@ import { ResultPermissionProp } from "./canPermission";
 import { Session } from "next-auth";
 import { getPlan } from "./get-plans";
 import { PLANS } from "../plans";
-import { Subscription } from "@/prisma-client";
+import { Subscription } from "@prisma/client"
+//import { Subscription } from "@/prisma-client";
 import { checkSubscriptionExpired } from "./checkSubscriptionExpired";
 
 export async function canCreateService(subscription: Subscription | null, session: Session): Promise<ResultPermissionProp> {
